@@ -8,10 +8,27 @@ sentence = "Some people want it to happen, some wish it would happen, others mak
 fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
 
 #img = Image.new('RGB', (x1, y1), color = (255, 255, 255))
-img=Image.open("background.jpg")
-img=img.resize(size)
+i=Image.open("background3.jpg")
+i=i.resize(size)
 #img = img.filter(ImageFilter.BoxBlur(2))
-img.putalpha(128)
+#img.putalpha(128)
+brightness=0.3
+img = Image.new('RGB', i.size)
+for x in range(i.size[0]):
+    for y in range(i.size[1]):
+      r, g, b = i.getpixel((x, y))
+
+      red = int(r * brightness)
+      red = min(255, max(0, red))
+
+      green = int(g * brightness)
+      green = min(255, max(0, green))
+
+      blue = int(b * brightness)
+      blue = min(255, max(0, blue))
+
+      img.putpixel((x, y), (red, green, blue))
+
 d = ImageDraw.Draw(img)
 #find the average size of the letter
 sum = 0
@@ -42,10 +59,10 @@ x2 = dim[0]
 y2 = dim[1]
 qx = (x1/2 - x2/2)
 qy = (y1/2-y2/2)
-d.text((qx-1, qy), fresh_sentence, align="center",font=fnt, fill=(0,0,0))
-d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
-d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
-d.text((qx, qy+1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+#d.text((qx-1, qy), fresh_sentence, align="center",font=fnt, fill=(0,0,0))
+#d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+#d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+#d.text((qx, qy+1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
 d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=(255,255,255))
 
-img.save('quote1.png')
+img.save('quote3.png')
