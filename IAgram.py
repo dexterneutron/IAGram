@@ -1,10 +1,19 @@
 from PIL import Image, ImageDraw,ImageFont,ImageFilter
+BLUE=(6, 50, 71)
+BROWN=(112, 66, 20)
+GREEN=(51,97,32)
+PURPLE=(87,10,84)
 
-def IATransform(filter,sentence,i):
-    if filter=='WhiteText':
+def IATransform(filter,sentence,i,color='none'):
+    if filter=='DarkWhiteText':
         fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
         brightness=0.3
         img=BrightnessFilter(i, brightness)
+        img=AddcenteredText(sentence,img,fnt)
+        return img
+    elif filter=='ColourWhiteText':
+        fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
+        img=AddTransparentLayer(i,PURPLE)
         img=AddcenteredText(sentence,img,fnt)
         return img
     else:
@@ -62,3 +71,9 @@ def BrightnessFilter(i, br):
             blue = min(255, max(0, blue))
             img.putpixel((x, y), (red, green, blue))
     return img
+
+def AddTransparentLayer(i,color):
+    front = Image.new('RGB', (612, 612), color = color)
+    front.putalpha(100)
+    i.paste(front,(0,0),mask=front)
+    return i
