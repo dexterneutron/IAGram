@@ -1,19 +1,21 @@
 from PIL import Image, ImageDraw,ImageFont,ImageFilter
-BLUE=(6, 50, 71)
+BLUE=(6, 50,71)
 BROWN=(112, 66, 20)
 GREEN=(51,97,32)
 PURPLE=(87,10,84)
-
+GREYBLUE=(102,122,129)
+YELLOW=(60,61,29)
+LIGHTPURPLE=(41,0,62)
 def IATransform(filter,sentence,i,color='none'):
     if filter=='DarkWhiteText':
-        fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
+        fnt = ImageFont.truetype('Fonts/CroissantOne-Regular.ttf', 50)
         brightness=0.3
         img=BrightnessFilter(i, brightness)
         img=AddcenteredText(sentence,img,fnt)
         return img
     elif filter=='ColourWhiteText':
         fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
-        img=AddTransparentLayer(i,PURPLE)
+        img=AddTransparentLayer(i,LIGHTPURPLE)
         img=AddcenteredText(sentence,img,fnt)
         return img
     else:
