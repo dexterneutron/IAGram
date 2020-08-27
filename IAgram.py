@@ -1,5 +1,8 @@
 from PIL import Image, ImageDraw,ImageFont,ImageFilter
 import random
+#COLOR CONSTANTS
+BLACK=(0,0,0)
+WHITE=(255,255,255)
 #FILTER COLOR CONSTANTS
 FILTER_BLUE=(6, 50,71)
 FILTER_BROWN=(112, 66, 20)
@@ -13,6 +16,7 @@ FONTSPATH='Fonts/'
 CROISSANT_ONE='CroissantOne-Regular.ttf'
 MARCELLUS_REGULAR='MarcellusSC-Regular.ttf'
 PHILOSOPHER='Philosopher-Bold.ttf'
+RIBEYE='Ribeye-Regular.ttf'
 def IATransform(filter,sentence,i,color='ramdom'):
     if filter=='DarkWhiteText':
         fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER])
@@ -28,10 +32,15 @@ def IATransform(filter,sentence,i,color='ramdom'):
         img=AddTransparentLayer(i,color)
         img=AddcenteredText(sentence,img,fnt)
         return img
+    elif filter=='CenterWhiteBox':
+        fontfile=FONTSPATH+random.choice([RIBEYE])
+        fnt = ImageFont.truetype(fontfile, 50)
+        img=AddcenteredText(sentence,i,fnt,fontcolor=BLACK,textbox=True)
+        return img
     else:
         print('Filter doesnt exist')
 
-def AddcenteredText(sentence,img,fnt):
+def AddcenteredText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
     d = ImageDraw.Draw(img)
     x1 = 612
     y1 = 612
@@ -67,7 +76,11 @@ def AddcenteredText(sentence,img,fnt):
     #d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     #d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     #d.text((qx, qy+1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
-    d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=(255,255,255))
+    if(textbox):
+        front = Image.new('RGB', (x2+5, y2+15), color = WHITE)
+        front.putalpha(100)
+        img.paste(front,(int(qx),int(qy)),mask=front)
+    d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=fontcolor)
     return img
 
 def BrightnessFilter(i, br):
@@ -89,14 +102,3 @@ def AddTransparentLayer(i,color):
     front.putalpha(100)
     i.paste(front,(0,0),mask=front)
     return i
-
-""" def AddTextBox(i):
-    x1 = 612
-    y1 = 612
-    qx = (x1/2 -300)
-    qy = (y1/2-612/2)
-    color=(255,255,255)
-    front = Image.new('RGB', (500, 500), color = color)
-    front.putalpha(100)
-    i.paste(front,(qx,qy),mask=front)
-    return i    """ 
