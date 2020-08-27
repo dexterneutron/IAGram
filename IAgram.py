@@ -1,21 +1,31 @@
 from PIL import Image, ImageDraw,ImageFont,ImageFilter
-BLUE=(6, 50,71)
-BROWN=(112, 66, 20)
-GREEN=(51,97,32)
-PURPLE=(87,10,84)
-GREYBLUE=(102,122,129)
-YELLOW=(60,61,29)
-LIGHTPURPLE=(41,0,62)
-def IATransform(filter,sentence,i,color='none'):
+import random
+#FILTER COLOR CONSTANTS
+FILTER_BLUE=(6, 50,71)
+FILTER_BROWN=(112, 66, 20)
+FILTER_GREEN=(51,97,32)
+FILTER_PURPLE=(87,10,84)
+FILTER_GREYBLUE=(102,122,129)
+FILTER_YELLOW=(60,61,29)
+FILTER_LIGHTPURPLE=(41,0,62)
+#FONTS CONSTANTS
+FONTSPATH='Fonts/'
+CROISSANT_ONE='CroissantOne-Regular.ttf'
+MARCELLUS_REGULAR='MarcellusSC-Regular.ttf'
+PHILOSOPHER='Philosopher-Bold.ttf'
+def IATransform(filter,sentence,i,color='ramdom'):
     if filter=='DarkWhiteText':
-        fnt = ImageFont.truetype('Fonts/CroissantOne-Regular.ttf', 50)
+        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER])
+        fnt = ImageFont.truetype(fontfile, 50)
         brightness=0.3
         img=BrightnessFilter(i, brightness)
         img=AddcenteredText(sentence,img,fnt)
         return img
     elif filter=='ColourWhiteText':
-        fnt = ImageFont.truetype('CroissantOne-Regular.ttf', 50)
-        img=AddTransparentLayer(i,LIGHTPURPLE)
+        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER])
+        fnt = ImageFont.truetype(fontfile, 50)
+        color=random.choice([FILTER_BLUE, FILTER_BROWN,FILTER_GREEN,FILTER_PURPLE,FILTER_GREYBLUE,FILTER_YELLOW,FILTER_LIGHTPURPLE])
+        img=AddTransparentLayer(i,color)
         img=AddcenteredText(sentence,img,fnt)
         return img
     else:
@@ -79,3 +89,14 @@ def AddTransparentLayer(i,color):
     front.putalpha(100)
     i.paste(front,(0,0),mask=front)
     return i
+
+""" def AddTextBox(i):
+    x1 = 612
+    y1 = 612
+    qx = (x1/2 -300)
+    qy = (y1/2-612/2)
+    color=(255,255,255)
+    front = Image.new('RGB', (500, 500), color = color)
+    front.putalpha(100)
+    i.paste(front,(qx,qy),mask=front)
+    return i    """ 
