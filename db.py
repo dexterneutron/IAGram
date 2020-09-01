@@ -13,4 +13,4 @@ def RamdomQuote():
         autor=(q['Autor'])
     return frase,autor
 
-frase,autor=RamdomQuote()
+frase,autor=RamdomQuote()   

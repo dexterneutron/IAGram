@@ -102,3 +102,7 @@ def AddTransparentLayer(i,color):
     front.putalpha(80)
     i.paste(front,(0,0),mask=front)
     return i
+
+def RandomTransform():
+    filters=["DarkWhiteText","ColourWhiteText","CenterWhiteBox"]
+    return random.choice(filters)
