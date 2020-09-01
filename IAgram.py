@@ -99,6 +99,6 @@ def BrightnessFilter(i, br):
 
 def AddTransparentLayer(i,color):
     front = Image.new('RGB', (612, 612), color = color)
-    front.putalpha(100)
+    front.putalpha(80)
     i.paste(front,(0,0),mask=front)
     return i
