@@ -17,25 +17,37 @@ CROISSANT_ONE='CroissantOne-Regular.ttf'
 MARCELLUS_REGULAR='MarcellusSC-Regular.ttf'
 PHILOSOPHER='Philosopher-Bold.ttf'
 RIBEYE='Ribeye-Regular.ttf'
+VARIANE='variane-script.regular.ttf'
+BROSHK='Broshk.ttf'
+APPLETEA='AppleTea.ttf'
+
 def IATransform(filter,sentence,i,color='ramdom'):
     if filter=='DarkWhiteText':
-        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER])
+        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER,VARIANE])
+        #fontfile=FONTSPATH+random.choice([HEYOCTOBER])
         fnt = ImageFont.truetype(fontfile, 50)
         brightness=0.3
         img=BrightnessFilter(i, brightness)
         img=AddcenteredText(sentence,img,fnt)
         return img
     elif filter=='ColourWhiteText':
-        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER])
+        fontfile=FONTSPATH+random.choice([CROISSANT_ONE,MARCELLUS_REGULAR,PHILOSOPHER,VARIANE])
+        #fontfile=FONTSPATH+random.choice([VARIANE])
         fnt = ImageFont.truetype(fontfile, 50)
         color=random.choice([FILTER_BLUE, FILTER_BROWN,FILTER_GREEN,FILTER_PURPLE,FILTER_GREYBLUE,FILTER_YELLOW,FILTER_LIGHTPURPLE])
         img=AddTransparentLayer(i,color)
         img=AddcenteredText(sentence,img,fnt)
         return img
     elif filter=='CenterWhiteBox':
-        fontfile=FONTSPATH+random.choice([RIBEYE])
+        fontfile=FONTSPATH+random.choice([RIBEYE,BROSHK])
+        #fontfile=FONTSPATH+random.choice([APPLETEA])
         fnt = ImageFont.truetype(fontfile, 50)
         img=AddcenteredText(sentence,i,fnt,fontcolor=BLACK,textbox=True)
+        return img
+    elif filter=='AlphaText':
+        fontfile=FONTSPATH+random.choice([APPLETEA])
+        fnt = ImageFont.truetype(fontfile, 50)
+        img=AddTransparentText(sentence,i,fnt)
         return img
     else:
         print('Filter doesnt exist')
@@ -82,6 +94,49 @@ def AddcenteredText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
         img.paste(front,(int(qx),int(qy)),mask=front)
     d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=fontcolor)
     return img
+def AddTransparentText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
+    size=612,612
+    alphalayer=Image.new('L',size, (0))
+    d = ImageDraw.Draw(alphalayer)
+    x1 = 612
+    y1 = 612
+    sum=0
+    for letter in sentence:
+        sum += d.textsize(letter, font=fnt)[0]
+        average_length_of_letter = sum/len(sentence)
+        #find the number of letters to be put on each line
+        number_of_letters_for_each_line = (x1/1.618)/average_length_of_letter
+        incrementer = 0
+        fresh_sentence = ''
+    #add some line breaks
+    for letter in sentence:
+        if(letter == '-'):
+            fresh_sentence += '\n\n' + letter
+        elif(incrementer < number_of_letters_for_each_line):
+            fresh_sentence += letter
+        else:
+            if(letter == ' '):
+                fresh_sentence += '\n'
+                incrementer = 0
+            else:
+                fresh_sentence += letter
+        incrementer+=1
+    print (fresh_sentence)
+    #render the text in the center of the box
+    dim = d.textsize(fresh_sentence, font=fnt)
+    x2 = dim[0]
+    y2 = dim[1]
+    qx = (x1/2 - x2/2)
+    qy = (y1/2-y2/2)
+    #d.text((qx-1, qy), fresh_sentence, align="center",font=fnt, fill=(0,0,0))
+    #d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+    #d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+    #d.text((qx, qy+1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
+    d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=(255))
+    img.putalpha(alphalayer)
+    back = Image.new('RGB', (612, 612), color = WHITE)
+    back.paste(img,(0,0),mask=img)
+    return back
 
 def BrightnessFilter(i, br):
     img = Image.new('RGB', i.size)
@@ -106,3 +161,5 @@ def AddTransparentLayer(i,color):
 def RandomTransform():
     filters=["DarkWhiteText","ColourWhiteText","CenterWhiteBox"]
     return random.choice(filters)
+
+
