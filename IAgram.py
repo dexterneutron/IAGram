@@ -77,7 +77,8 @@ def AddcenteredText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
             else:
                 fresh_sentence += letter
         incrementer+=1
-    print (fresh_sentence)
+    fresh_sentence += '\n\n\n'+'@agooday4you'
+    #print (fresh_sentence)
     #render the text in the center of the box
     dim = d.textsize(fresh_sentence, font=fnt)
     x2 = dim[0]
@@ -121,7 +122,8 @@ def AddTransparentText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
             else:
                 fresh_sentence += letter
         incrementer+=1
-    print (fresh_sentence)
+    fresh_sentence += '\n\n\n'+'@agooday4you'
+    #print (fresh_sentence)
     #render the text in the center of the box
     dim = d.textsize(fresh_sentence, font=fnt)
     x2 = dim[0]
@@ -133,6 +135,8 @@ def AddTransparentText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
     #d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     #d.text((qx, qy+1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     d.text((qx,qy), fresh_sentence ,align="center",  font=fnt, fill=(255))
+    
+    #d.text((qx,y1-25), "@agooday4you" ,align="center",  font=fnt, fill=(255))
     img.putalpha(alphalayer)
     back = Image.new('RGB', (612, 612), color = WHITE)
     back.paste(img,(0,0),mask=img)
@@ -159,7 +163,7 @@ def AddTransparentLayer(i,color):
     return i
 
 def RandomTransform():
-    filters=["DarkWhiteText","ColourWhiteText","CenterWhiteBox"]
+    filters=["DarkWhiteText","ColourWhiteText","CenterWhiteBox","AlphaText"]
     return random.choice(filters)
 
 
