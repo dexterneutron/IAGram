@@ -85,6 +85,7 @@ def AddcenteredText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
     y2 = dim[1]
     qx = (x1/2 - x2/2)
     qy = (y1/2-y2/2)
+    #Uncomment to add font border
     #d.text((qx-1, qy), fresh_sentence, align="center",font=fnt, fill=(0,0,0))
     #d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     #d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
@@ -130,6 +131,7 @@ def AddTransparentText(sentence,img,fnt,fontcolor=WHITE,textbox=False):
     y2 = dim[1]
     qx = (x1/2 - x2/2)
     qy = (y1/2-y2/2)
+    #Uncomment to add font border
     #d.text((qx-1, qy), fresh_sentence, align="center",font=fnt, fill=(0,0,0))
     #d.text((qx+1, qy), fresh_sentence,align="center", font=fnt, fill=(0,0,0))
     #d.text((qx, qy-1), fresh_sentence,align="center", font=fnt, fill=(0,0,0))

@@ -4,7 +4,7 @@ client = MongoClient()
 client = MongoClient('localhost', 27017)
 db = client.iagram
 #collection = db.iagram
-collection = db.iagram_weekly
+collection = db.iagram_weekly2
 
 def RamdomQuote():
     #q = collection.find(query)
